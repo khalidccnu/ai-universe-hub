@@ -1,3 +1,24 @@
+// sort tools by date
+let sortTools = _ => {
+    const toolsDate = document.querySelectorAll(".tool-publish");
+    const toolsPublish = [];
+
+    toolsDate.forEach(toolDate => {
+        let date = new Date(toolDate.innerText);
+        toolsPublish.push(date);
+    });
+
+    toolsPublish.sort((a, b) => a - b);
+
+    toolsDate.forEach(toolDate => {
+        let date = new Date(toolDate.innerText).getTime();
+
+        toolsPublish.forEach( (toolPublish, index) => {
+            if (date === toolPublish.getTime()) toolDate.parentElement.parentElement.parentElement.parentElement.style.order = index;
+        });
+    });
+}
+
 // create ai tool card
 let createAICard = obj => {
     let objTools = obj.data.tools;
@@ -19,7 +40,7 @@ let createAICard = obj => {
                 <h5 class="fw-semibold fs-5">${tool.name}</h5>
                 <div class="small text-muted">
                     <i class='bx bx-calendar'></i>
-                    <span>${tool["published_in"]}</span>
+                    <span class="tool-publish">${tool["published_in"]}</span>
                 </div>
             </div>
             <div id="trigger-modal" class="d-flex justify-content-center align-items-center rounded-circle">
@@ -50,6 +71,11 @@ let displayAI = async _ => {
     await getData().then(result => obj = result);
     createAICard(obj);
 }
+
+// invoke sort tools
+document.getElementById("sort-ai").addEventListener("click", _ => {
+    sortTools();
+});
 
 // initial load
 onload = _ => {
