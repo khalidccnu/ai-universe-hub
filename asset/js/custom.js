@@ -1,3 +1,9 @@
+// load spinner
+let spinner = isLoad => {
+    if (isLoad) document.querySelector("#spinner").classList.replace("d-none", "d-flex");
+    else document.querySelector("#spinner").classList.replace("d-flex", "d-none");
+}
+
 // sort tools by date
 let sortTools = _ => {
     const toolsDate = document.querySelectorAll(".tool-publish");
@@ -20,11 +26,12 @@ let sortTools = _ => {
 }
 
 // create ai tool card
-let createAICard = obj => {
+let createAICard = (obj, endLength = 6) => {
     let objTools = obj.data.tools;
+    let newObjTools = objTools.slice(0, endLength);
     let aiArea = document.getElementById("ai-area");
 
-    objTools.forEach(tool => {
+    newObjTools.forEach((tool, index) => {
         let uniqueAId = tool.name.toLowerCase().replaceAll(" ", "").replaceAll(".", "");
         let card = document.createElement("div");
 
@@ -49,6 +56,8 @@ let createAICard = obj => {
         </div>
         `;
 
+        if (newObjTools.length === (index + 1)) spinner(false);
+
         aiArea.appendChild(card);
 
         tool.features.forEach(feature => {
@@ -67,6 +76,8 @@ let getData = _ => {
 
 // display data in AI
 let displayAI = async _ => {
+    spinner(true);
+
     let obj;
     await getData().then(result => obj = result);
     createAICard(obj);

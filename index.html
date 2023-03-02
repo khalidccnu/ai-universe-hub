@@ -18,7 +18,7 @@
 </head>
 <body class="d-flex flex-column min-vh-100 bg-secondary-subtle py-5">
 <!-- Header -->
-<header>
+<header class="mb-4">
     <div class="container">
         <div class="text-center">
             <h3 class="fw-semibold fs-1">AI Universe Hub</h3>
@@ -27,8 +27,15 @@
     </div>
 </header>
 
+<!-- Spinner -->
+<section id="spinner" class="d-none align-items-center text-center">
+    <div class="container">
+        <div class="spinner-border" role="status"></div>
+    </div>
+</section>
+
 <!-- AI -->
-<section id="ai" class="pt-4">
+<section id="ai">
     <div class="container">
         <div class="d-grid gap-3" id="ai-area"></div>
     </div>
