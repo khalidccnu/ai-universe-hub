@@ -20,3 +20,18 @@ body {
 #ai #trigger-modal i {
     color: #EB5757;
 }
+
+/* ===== Media Query ===== */
+@media screen and (max-width: 991px) {
+    /* ===== AI ===== */
+    #ai #ai-area {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 767px) {
+    /* ===== AI ===== */
+    #ai #ai-area {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
