@@ -7,6 +7,10 @@ body {
 }
 
 /* ===== AI ===== */
+#ai #ai-area {
+    grid-template-columns: repeat(3, 1fr);
+}
+
 #ai #trigger-modal {
     background-color: rgba(235, 87, 87, 0.1);
     width: 2rem;

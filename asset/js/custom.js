@@ -5,32 +5,30 @@ let createAICard = obj => {
 
     objTools.forEach(tool => {
         let uniqueAId = tool.name.toLowerCase().replaceAll(" ", "").replaceAll(".", "");
-        let cardCol = document.createElement("div");
+        let card = document.createElement("div");
 
-        cardCol.classList.add("col-12", "col-md-6", "col-lg-4");
-        cardCol.innerHTML = `
-        <div class="card p-3">
-            <img src="${tool.image}" class="card-img-top rounded-bottom" alt="" style="width: 322px; height: 170px;">
-            <div class="card-body px-0">
-                <h5 class="card-title fw-semibold fs-4">Features</h5>
-                <ol class="small text-muted ps-3" id="${uniqueAId}-feature"></ol>
+        card.classList.add("card", "p-3");
+        card.innerHTML = `
+        <img src="${tool.image}" class="card-img-top rounded-bottom" alt="" style="height: 170px;">
+        <div class="card-body px-0">
+            <h5 class="card-title fw-semibold fs-4">Features</h5>
+            <ol class="small text-muted ps-3" id="${uniqueAId}-feature"></ol>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center bg-transparent px-0">
+            <div>
+                <h5 class="fw-semibold fs-5">${tool.name}</h5>
+                <div class="small text-muted">
+                    <i class='bx bx-calendar'></i>
+                    <span>${tool["published_in"]}</span>
+                </div>
             </div>
-            <div class="card-footer d-flex justify-content-between align-items-center bg-transparent px-0">
-                <div>
-                    <h5 class="fw-semibold fs-5">${tool.name}</h5>
-                    <div class="small text-muted">
-                        <i class='bx bx-calendar'></i>
-                        <span>${tool["published_in"]}</span>
-                    </div>
-                </div>
-                <div id="trigger-modal" class="d-flex justify-content-center align-items-center rounded-circle">
-                    <i class='bx bx-right-arrow-alt'></i>
-                </div>
+            <div id="trigger-modal" class="d-flex justify-content-center align-items-center rounded-circle">
+                <i class='bx bx-right-arrow-alt'></i>
             </div>
         </div>
         `;
 
-        aiArea.appendChild(cardCol);
+        aiArea.appendChild(card);
 
         tool.features.forEach(feature => {
             let list = document.createElement("li");
