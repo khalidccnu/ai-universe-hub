@@ -1,3 +1,5 @@
+let aiArea = document.getElementById("ai-area");
+
 // load spinner
 let spinner = isLoad => {
     if (isLoad) document.querySelector("#spinner").classList.replace("d-none", "d-flex");
@@ -29,7 +31,6 @@ let sortTools = _ => {
 let createAICard = (obj, endLength = 6) => {
     let objTools = obj.data.tools;
     let newObjTools = objTools.slice(0, endLength);
-    let aiArea = document.getElementById("ai-area");
 
     newObjTools.forEach((tool, index) => {
         let uniqueAId = tool.name.toLowerCase().replaceAll(" ", "").replaceAll(".", "");
@@ -67,6 +68,10 @@ let createAICard = (obj, endLength = 6) => {
             document.getElementById(uniqueAId + "-feature").appendChild(list);
         });
     });
+
+    document.getElementById("sort-ai").classList.remove("d-none");
+
+    if (endLength === 6) aiArea.nextElementSibling.classList.remove("d-none");
 }
 
 // fetch data from server
@@ -75,13 +80,21 @@ let getData = _ => {
 }
 
 // display data in AI
-let displayAI = async _ => {
+let displayAI = async isMore => {
     spinner(true);
 
     let obj;
     await getData().then(result => obj = result);
-    createAICard(obj);
+    isMore === undefined ? createAICard(obj) : createAICard(obj, obj.data.tools.length);
 }
+
+// display more tool
+document.getElementById("see-more").addEventListener("click", _ => {
+    aiArea.innerHTML = "";
+    aiArea.nextElementSibling.classList.add("d-none");
+
+    displayAI(true);
+});
 
 // invoke sort tools
 document.getElementById("sort-ai").addEventListener("click", _ => {
