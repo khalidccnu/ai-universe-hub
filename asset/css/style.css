@@ -5,3 +5,14 @@
 body {
     font-family: "Work Sans", sans-serif;
 }
+
+/* ===== AI ===== */
+#ai #trigger-modal {
+    background-color: rgba(235, 87, 87, 0.1);
+    width: 2rem;
+    height: 2rem;
+}
+
+#ai #trigger-modal i {
+    color: #EB5757;
+}
