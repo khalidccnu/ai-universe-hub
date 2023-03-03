@@ -7,38 +7,84 @@ let toolDetail = async toolID => {
     let obj;
     await getData(toolID).then(result => obj = result);
 
-    document.getElementById("tool-img").src = obj.data["image_link"][0];
-    document.getElementById("tool-ex-ip").innerText = obj.data["input_output_examples"][0].input;
-    document.getElementById("tool-ex-op").innerText = obj.data["input_output_examples"][0].output;
-    document.getElementById("tool-accuracy").innerText = obj.data.accuracy.score * 100 + "% accuracy";
+    let {image_link, accuracy: {score}, input_output_examples, description, pricing, features, integrations} = obj.data;
+    let toolExIpValue, toolExOpValue;
 
-    document.getElementById("tool-description").innerText = obj.data.description;
-    document.getElementById("tool-price").firstElementChild.firstElementChild.innerText = obj.data.pricing[0].plan;
-    document.getElementById("tool-price").firstElementChild.lastElementChild.innerText = obj.data.pricing[0].price;
-    document.getElementById("tool-price").firstElementChild.nextElementSibling.firstElementChild.innerText = obj.data.pricing[1].plan;
-    document.getElementById("tool-price").firstElementChild.nextElementSibling.lastElementChild.innerText = obj.data.pricing[1].price;
-    document.getElementById("tool-price").lastElementChild.firstElementChild.innerText = obj.data.pricing[2].plan;
-    document.getElementById("tool-price").lastElementChild.lastElementChild.innerText = obj.data.pricing[2].price;
-
+    let toolImg = document.getElementById("tool-img");
+    let toolAccuracy = document.getElementById("tool-accuracy");
+    let toolExIp = document.getElementById("tool-ex-ip");
+    let toolExOp = document.getElementById("tool-ex-op");
+    let toolDescription = document.getElementById("tool-description");
+    let toolPrice = document.getElementById("tool-price");
     let toolFeatures = document.getElementById("tool-features");
     let toolIntegrations = document.getElementById("tool-integrations");
 
+    toolPrice.innerHTML = "";
     toolFeatures.innerHTML = "";
     toolIntegrations.innerHTML = "";
 
-    for(let feature in obj.data.features) {
-        let list = document.createElement("li");
-        list.innerText = obj.data.features[feature]["feature_name"];
-
-        document.getElementById("tool-features").appendChild(list);
+    if (score === null || score === "") {
+        toolAccuracy.classList.add("d-none");
+    } else {
+        toolAccuracy.innerText = score * 100 + "% accuracy";
     }
 
-    obj.data.integrations.forEach(integration => {
-        let list = document.createElement("li");
-        list.innerText = integration;
+    if (input_output_examples === null || input_output_examples === "") {
+        toolExIpValue = "No data found";
+        toolExOpValue = "No data found";
+    } else {
+        toolExIpValue = input_output_examples[0].input;
+        toolExOpValue = input_output_examples[0].output;
+    }
 
-        toolIntegrations.appendChild(list);
-    });
+    if (description === null || description === "") description = "No data found";
+
+    if (pricing === null || pricing === "") {
+        toolPrice.innerText = "No data found";
+    } else {
+        pricing.forEach((elem, index) => {
+            let singlePrice = document.createElement("h5");
+            singlePrice.classList.add("d-flex", "flex-column", "justify-content-center", "px-3", "py-2", "rounded", "bg-light-subtle", "fw-semibold", "fs-6", "text-center");
+
+            if (index === 0) singlePrice.classList.add("text-primary");
+            else if (index === 1) singlePrice.classList.add("text-warning");
+            else if (index === 2) singlePrice.classList.add("text-danger");
+
+            singlePrice.innerHTML = `
+            <span class="plan">${elem.plan}</span>
+            <span class="price">${elem.price === "0" ? "No cost" : elem.price}</span>
+            `;
+
+            toolPrice.appendChild(singlePrice);
+        });
+    }
+
+    if (features === null || features === "") {
+        toolFeatures.innerHTML = `<span style="margin-left: -1rem;">No data found</span>`;
+    } else {
+        for(let feature in features) {
+            let list = document.createElement("li");
+            list.innerText = features[feature]["feature_name"];
+
+            document.getElementById("tool-features").appendChild(list);
+        }
+    }
+
+    if (integrations === null || integrations === "") {
+        toolIntegrations.innerHTML = `<span style="margin-left: -1rem;">No data found</span>`;
+    } else {
+        integrations.forEach(integration => {
+            let list = document.createElement("li");
+            list.innerText = integration;
+
+            toolIntegrations.appendChild(list);
+        });
+    }
+
+    toolImg.src = image_link[0];
+    toolExIp.innerText = toolExIpValue;
+    toolExOp.innerText = toolExOpValue;
+    toolDescription.innerText = description;
 }
 
 // load spinner
