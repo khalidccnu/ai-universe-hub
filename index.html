@@ -44,6 +44,60 @@
     </div>
 </section>
 
+<!-- AI Tool Modal -->
+<div class="modal modal-lg fade" id="ai-tool-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered m-4 mx-sm-auto">
+        <div class="modal-content position-relative">
+            <span class="md-close position-absolute top-0 start-100 translate-middle d-inline-flex justify-content-center align-items-center rounded-circle z-1" data-bs-dismiss="modal">
+                <img src="./asset/img/md-close.svg" alt="" width="16">
+            </span>
+            <div class="modal-body">
+                <div class="ai-tool-modal d-grid gap-3">
+                    <div class="first-card card">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold fs-6" id="tool-description"></h5>
+                            <div class="d-flex flex-wrap flex-sm-nowrap justify-content-center gap-2 my-2" id="tool-price">
+                                <h5 class="d-flex flex-column justify-content-center px-3 py-2 rounded bg-light-subtle fw-semibold fs-6 text-success text-center">
+                                    <span class="plan"></span>
+                                    <span class="price"></span>
+                                </h5>
+                                <h5 class="d-flex flex-column justify-content-center px-3 py-2 rounded bg-light-subtle fw-semibold fs-6 text-warning text-center">
+                                    <span class="plan"></span>
+                                    <span class="price"></span>
+                                </h5>
+                                <h5 class="d-flex flex-column justify-content-center px-3 py-2 rounded bg-light-subtle fw-semibold fs-6 text-danger text-center">
+                                    <span class="plan"></span>
+                                    <span class="price"></span>
+                                </h5>
+                            </div>
+                            <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between">
+                                <div>
+                                    <span class="fw-semibold fs-6">Features</span>
+                                    <ul id="tool-features" class="ps-3 text-muted"></ul>
+                                </div>
+                                <div>
+                                    <span class="fw-semibold fs-6">Integrations</span>
+                                    <ul id="tool-integrations" class="ps-3 text-muted"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="second-card card p-3">
+                        <div class="position-relative">
+                            <img src="" class="card-img-top rounded-bottom" alt="" id="tool-img">
+                            <small class="position-absolute top-0 end-0 px-2 py-1 mt-1 me-1 rounded bg-danger text-white" id="tool-accuracy"></small>
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title fw-semibold fs-5" id="tool-ex-ip"></h5>
+                            <p class="card-text text-muted" id="tool-ex-op"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 <!-- Custom JS -->

@@ -1,5 +1,5 @@
 /* ===== Google Font ===== */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@700&family=Work+Sans:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap");
 
 /* ===== Common ===== */
 body {
@@ -15,10 +15,28 @@ body {
     background-color: rgba(235, 87, 87, 0.1);
     width: 2rem;
     height: 2rem;
+    cursor: pointer;
 }
 
 #ai #trigger-modal i {
     color: #EB5757;
+}
+
+/* ===== AI Tool Modal ===== */
+#ai-tool-modal .md-close {
+    background-color: #EB5757;
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+}
+
+.ai-tool-modal {
+    grid-template-columns: 2fr 1fr;
+}
+
+.ai-tool-modal .first-card {
+    background-color: rgba(235, 87, 87, 0.05);
+    border-color: #EB5757 !important;
 }
 
 /* ===== Media Query ===== */
@@ -26,6 +44,11 @@ body {
     /* ===== AI ===== */
     #ai #ai-area {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* ===== AI Tool Modal ===== */
+    .ai-tool-modal {
+        grid-template-columns: repeat(1, 1fr);
     }
 }
 

@@ -1,5 +1,46 @@
 let aiArea = document.getElementById("ai-area");
 
+// show tool detail in modal
+let toolDetail = async toolID => {
+    toolID < 10 ? toolID = "0" + toolID : toolID;
+
+    let obj;
+    await getData(toolID).then(result => obj = result);
+
+    document.getElementById("tool-img").src = obj.data["image_link"][0];
+    document.getElementById("tool-ex-ip").innerText = obj.data["input_output_examples"][0].input;
+    document.getElementById("tool-ex-op").innerText = obj.data["input_output_examples"][0].output;
+    document.getElementById("tool-accuracy").innerText = obj.data.accuracy.score * 100 + "% accuracy";
+
+    document.getElementById("tool-description").innerText = obj.data.description;
+    document.getElementById("tool-price").firstElementChild.firstElementChild.innerText = obj.data.pricing[0].plan;
+    document.getElementById("tool-price").firstElementChild.lastElementChild.innerText = obj.data.pricing[0].price;
+    document.getElementById("tool-price").firstElementChild.nextElementSibling.firstElementChild.innerText = obj.data.pricing[1].plan;
+    document.getElementById("tool-price").firstElementChild.nextElementSibling.lastElementChild.innerText = obj.data.pricing[1].price;
+    document.getElementById("tool-price").lastElementChild.firstElementChild.innerText = obj.data.pricing[2].plan;
+    document.getElementById("tool-price").lastElementChild.lastElementChild.innerText = obj.data.pricing[2].price;
+
+    let toolFeatures = document.getElementById("tool-features");
+    let toolIntegrations = document.getElementById("tool-integrations");
+
+    toolFeatures.innerHTML = "";
+    toolIntegrations.innerHTML = "";
+
+    for(let feature in obj.data.features) {
+        let list = document.createElement("li");
+        list.innerText = obj.data.features[feature]["feature_name"];
+
+        document.getElementById("tool-features").appendChild(list);
+    }
+
+    obj.data.integrations.forEach(integration => {
+        let list = document.createElement("li");
+        list.innerText = integration;
+
+        toolIntegrations.appendChild(list);
+    });
+}
+
 // load spinner
 let spinner = isLoad => {
     if (isLoad) document.querySelector("#spinner").classList.replace("d-none", "d-flex");
@@ -51,7 +92,7 @@ let createAICard = (obj, endLength = 6) => {
                     <span class="tool-publish">${tool["published_in"]}</span>
                 </div>
             </div>
-            <div id="trigger-modal" class="d-flex justify-content-center align-items-center rounded-circle">
+            <div id="trigger-modal" class="d-flex justify-content-center align-items-center rounded-circle" onclick="toolDetail(${tool.id});" data-bs-toggle="modal" data-bs-target="#ai-tool-modal">
                 <i class='bx bx-right-arrow-alt'></i>
             </div>
         </div>
@@ -75,8 +116,13 @@ let createAICard = (obj, endLength = 6) => {
 }
 
 // fetch data from server
-let getData = _ => {
-    return fetch(`https://openapi.programming-hero.com/api/ai/tools`).then(response => response.json());
+let getData = target => {
+    let keyword;
+
+    if (target === "multiple") keyword = "tools";
+    else keyword = "tool/" + target;
+
+    return fetch(`https://openapi.programming-hero.com/api/ai/${keyword}`).then(response => response.json());
 }
 
 // display data in AI
@@ -84,7 +130,7 @@ let displayAI = async isMore => {
     spinner(true);
 
     let obj;
-    await getData().then(result => obj = result);
+    await getData("multiple").then(result => obj = result);
     isMore === undefined ? createAICard(obj) : createAICard(obj, obj.data.tools.length);
 }
 
