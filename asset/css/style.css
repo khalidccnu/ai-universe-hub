@@ -40,7 +40,7 @@ body {
 }
 
 /* ===== Media Query ===== */
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 992px) {
     /* ===== AI ===== */
     #ai #ai-area {
         grid-template-columns: repeat(2, 1fr);

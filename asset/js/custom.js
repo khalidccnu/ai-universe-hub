@@ -2,8 +2,6 @@ let aiArea = document.getElementById("ai-area");
 
 // show tool detail in modal
 let toolDetail = async toolID => {
-    toolID < 10 ? toolID = "0" + toolID : toolID;
-
     let obj;
     await getData(toolID).then(result => obj = result);
 
@@ -23,13 +21,13 @@ let toolDetail = async toolID => {
     toolFeatures.innerHTML = "";
     toolIntegrations.innerHTML = "";
 
-    if (score === null || score === "") {
+    if (score === null) {
         toolAccuracy.classList.add("d-none");
     } else {
         toolAccuracy.innerText = score * 100 + "% accuracy";
     }
 
-    if (input_output_examples === null || input_output_examples === "") {
+    if (input_output_examples === null) {
         toolExIpValue = "No data found";
         toolExOpValue = "No data found";
     } else {
@@ -37,21 +35,21 @@ let toolDetail = async toolID => {
         toolExOpValue = input_output_examples[0].output;
     }
 
-    if (description === null || description === "") description = "No data found";
+    if (description === null) description = "No data found";
 
-    if (pricing === null || pricing === "") {
+    if (pricing === null) {
         toolPrice.innerText = "No data found";
     } else {
         pricing.forEach((elem, index) => {
             let singlePrice = document.createElement("h5");
             singlePrice.classList.add("d-flex", "flex-column", "justify-content-center", "px-3", "py-2", "rounded", "bg-light-subtle", "fw-semibold", "fs-6", "text-center");
 
-            if (index === 0) singlePrice.classList.add("text-primary");
+            if (index === 0) singlePrice.classList.add("text-success");
             else if (index === 1) singlePrice.classList.add("text-warning");
             else if (index === 2) singlePrice.classList.add("text-danger");
 
             singlePrice.innerHTML = `
-            <span class="plan">${elem.plan}</span>
+            <small class="plan">${elem.plan}</small>
             <span class="price">${elem.price === "0" ? "No cost" : elem.price}</span>
             `;
 
@@ -59,18 +57,18 @@ let toolDetail = async toolID => {
         });
     }
 
-    if (features === null || features === "") {
+    if (features === null) {
         toolFeatures.innerHTML = `<span style="margin-left: -1rem;">No data found</span>`;
     } else {
         for(let feature in features) {
             let list = document.createElement("li");
             list.innerText = features[feature]["feature_name"];
 
-            document.getElementById("tool-features").appendChild(list);
+            toolFeatures.appendChild(list);
         }
     }
 
-    if (integrations === null || integrations === "") {
+    if (integrations === null) {
         toolIntegrations.innerHTML = `<span style="margin-left: -1rem;">No data found</span>`;
     } else {
         integrations.forEach(integration => {
@@ -109,7 +107,7 @@ let sortTools = _ => {
         let date = new Date(toolDate.innerText).getTime();
 
         toolsPublish.forEach( (toolPublish, index) => {
-            if (date === toolPublish.getTime()) toolDate.parentElement.parentElement.parentElement.parentElement.style.order = index;
+            if (date === toolPublish.getTime()) toolDate.closest(".card").style.order = index;
         });
     });
 }
@@ -120,25 +118,25 @@ let createAICard = (obj, endLength = 6) => {
     let newObjTools = objTools.slice(0, endLength);
 
     newObjTools.forEach((tool, index) => {
-        let uniqueAId = tool.name.toLowerCase().replaceAll(" ", "").replaceAll(".", "");
+        let toolPublish = new Date(tool["published_in"]);
         let card = document.createElement("div");
 
         card.classList.add("card", "p-3");
         card.innerHTML = `
-        <img src="${tool.image}" class="card-img-top rounded-bottom" alt="" style="height: 170px;">
+        <img src="${tool.image}" class="card-img-top rounded-bottom" alt="" height="170">
         <div class="card-body px-0">
             <h5 class="card-title fw-semibold fs-4">Features</h5>
-            <ol class="small text-muted ps-3" id="${uniqueAId}-feature"></ol>
+            <ol class="small text-muted ps-3" id="tool-${tool.id}-feature"></ol>
         </div>
         <div class="card-footer d-flex justify-content-between align-items-center bg-transparent px-0">
             <div>
                 <h5 class="fw-semibold fs-5">${tool.name}</h5>
                 <div class="small text-muted">
                     <i class='bx bx-calendar'></i>
-                    <span class="tool-publish">${tool["published_in"]}</span>
+                    <span class="tool-publish">${toolPublish.getMonth() + 1}/${toolPublish.getDate() < 10 ? "0" + toolPublish.getDate() : toolPublish.getDate()}/${toolPublish.getFullYear()}</span>
                 </div>
             </div>
-            <div id="trigger-modal" class="d-flex justify-content-center align-items-center rounded-circle" onclick="toolDetail(${tool.id});" data-bs-toggle="modal" data-bs-target="#ai-tool-modal">
+            <div id="trigger-modal" class="d-flex justify-content-center align-items-center rounded-circle" onclick="toolDetail('${tool.id}');" data-bs-toggle="modal" data-bs-target="#ai-tool-modal">
                 <i class='bx bx-right-arrow-alt'></i>
             </div>
         </div>
@@ -152,7 +150,7 @@ let createAICard = (obj, endLength = 6) => {
             let list = document.createElement("li");
             list.innerText = feature;
 
-            document.getElementById(uniqueAId + "-feature").appendChild(list);
+            document.getElementById("tool-" + tool.id + "-feature").appendChild(list);
         });
     });
 
