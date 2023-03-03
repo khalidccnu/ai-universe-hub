@@ -17,6 +17,7 @@ let toolDetail = async toolID => {
     let toolFeatures = document.getElementById("tool-features");
     let toolIntegrations = document.getElementById("tool-integrations");
 
+    toolAccuracy.classList.remove("d-none");
     toolPrice.innerHTML = "";
     toolFeatures.innerHTML = "";
     toolIntegrations.innerHTML = "";
@@ -92,7 +93,8 @@ let spinner = isLoad => {
 }
 
 // sort tools by date
-let sortTools = _ => {
+let sortTools = elem => {
+    let sortName = elem.getAttribute("id");
     const toolsDate = document.querySelectorAll(".tool-publish");
     const toolsPublish = [];
 
@@ -101,7 +103,14 @@ let sortTools = _ => {
         toolsPublish.push(date);
     });
 
-    toolsPublish.sort((a, b) => a - b);
+    toolsPublish.sort((a, b) => {
+        switch (sortName) {
+            case "sort-ascending":
+                return a - b;
+            default:
+                return b - a;
+        }
+    });
 
     toolsDate.forEach(toolDate => {
         let date = new Date(toolDate.innerText).getTime();
@@ -184,11 +193,6 @@ document.getElementById("see-more").addEventListener("click", _ => {
     aiArea.nextElementSibling.classList.add("d-none");
 
     displayAI(true);
-});
-
-// invoke sort tools
-document.getElementById("sort-ai").addEventListener("click", _ => {
-    sortTools();
 });
 
 // initial load

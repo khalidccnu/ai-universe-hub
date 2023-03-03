@@ -22,7 +22,7 @@
     <div class="container">
         <div class="text-center">
             <h3 class="fw-semibold fs-1">AI Universe Hub</h3>
-            <button class="d-none btn btn-sm btn-danger fw-semibold" id="sort-ai">Sort By Date</button>
+            <button type="button" class="d-none btn btn-sm btn-danger fw-semibold" id="sort-ai" data-bs-toggle="modal" data-bs-target="#sort-tool-modal">Sort By Date</button>
         </div>
     </div>
 </header>
@@ -39,10 +39,26 @@
     <div class="container">
         <div class="d-grid gap-3" id="ai-area"></div>
         <div class="d-none text-center mt-3">
-            <button class="btn btn-sm btn-danger fw-semibold" id="see-more">See More</button>
+            <button type="button" class="btn btn-sm btn-danger fw-semibold" id="see-more">See More</button>
         </div>
     </div>
 </section>
+
+<!-- Sort Tool Modal -->
+<div class="modal fade" id="sort-tool-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fw-semibold fs-5">Sort</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <button class="btn btn-sm btn-secondary" id="sort-ascending" onclick="sortTools(this);" data-bs-dismiss="modal">Ascending <i class='bx bx-sort-down'></i></button>
+                <button class="btn btn-sm btn-outline-secondary" id="sort-descending" onclick="sortTools(this);" data-bs-dismiss="modal">Descending <i class='bx bx-sort-up'></i></button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- AI Tool Modal -->
 <div class="modal modal-lg fade" id="ai-tool-modal" tabindex="-1">
